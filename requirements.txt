@@ -5,3 +5,9 @@ flask_migrate
 flask_caching
 flask_mail
 flask_debugtoolbar
+Flask-Login
+flask-bcrypt
+blinker
+flask-wtf
+flask-jwt-extended
+faker
