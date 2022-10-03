@@ -1,16 +1,36 @@
-# This is a sample Python script.
+import datetime
 
-# Press Shift+F10 to execute it or replace it with your code.
-# Press Double Shift to search everywhere for classes, files, tool windows, actions, and settings.
+from flask import Flask
+from flask_sqlalchemy import SQLAlchemy
+from flask_migrate import Migrate
+from config import DevConfig
+
+app = Flask(__name__)
+app.config.from_object(DevConfig)
+
+db = SQLAlchemy(app)
+migrate = Migrate(app, db)
 
 
-def print_hi(name):
-    # Use a breakpoint in the code line below to debug your script.
-    print(f'Hi, {name}')  # Press Ctrl+F8 to toggle the breakpoint.
+class User(db.Model):
+    id = db.Column(db.Integer(), primary_key=True)
+    username = db.Column(db.String(100), nullable=False, index=True, unique=True)
+    password = db.Column(db.String(50))
+
+    def __init__(self, username):
+        self.username = username
+
+    def __repr__(self):
+        # formats what is shown in the shell when print is
+        # called on it
+        return '<User {}>'.format(self.username)
 
 
-# Press the green button in the gutter to run the script.
+@app.route('/')
+def home():
+    result = "Hello World"
+    return result
+
+
 if __name__ == '__main__':
-    print_hi('PyCharm')
-
-# See PyCharm help at https://www.jetbrains.com/help/pycharm/
+    app.run()

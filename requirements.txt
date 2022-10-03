@@ -1,0 +1,7 @@
+flask
+flask-sqlalchemy
+Mysqlclient
+flask_migrate
+flask_caching
+flask_mail
+flask_debugtoolbar
