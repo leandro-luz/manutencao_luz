@@ -1,4 +1,5 @@
 class Config(object):
+    SECRET_KEY = "123"
     SQLALCHEMY_TRACK_MODIFICATIONS = False
 
 

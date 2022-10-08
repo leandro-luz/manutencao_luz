@@ -18,8 +18,8 @@ auth_blueprint = Blueprint(
 @auth_blueprint.route('/login', methods=['GET', 'POST'])
 def login():
     form = LoginForm()
-    print("aa:", form.username.data)
-    print("aa:", form.password.data)
+    print("user:", form.username.data)
+    print("psw:", form.password.data)
     if form.validate_on_submit():
         user = User.query.filter_by(username=form.username.data).one()
         login_user(user, remember=form.remember.data)

@@ -35,14 +35,12 @@ class User(db.Model):
         return False
 
     def set_password(self, password):
-        self.password = bcrypt.generate_password_hash(password)
+        # self.password = bcrypt.generate_password_hash(password)
+        self.password = password
 
     def check_password(self, password):
-        print('senha: ', self.password)
-        print('senha: ', password)
-        print(bcrypt.generate_password_hash(password))
-
-        return bcrypt.check_password_hash(self.password, password)
+        # return bcrypt.check_password_hash(self.password, password)
+        return self.password == password
 
     @property
     def is_authenticated(self):
