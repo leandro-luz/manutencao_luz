@@ -56,6 +56,8 @@ def generate_users():
         user.roles.append(poster)
         user.username = item['username']
         user.password = bcrypt.generate_password_hash("password")
+        # user.email = 'email@teste.com.br'
+        # user.confirmed = True
         users.append(user)
         try:
             db.session.add(user)

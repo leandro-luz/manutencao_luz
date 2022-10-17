@@ -11,3 +11,7 @@ blinker
 flask-wtf
 flask-jwt-extended
 faker
+email_validator
+itsdangerous
+python-dotenv
+sendgrid

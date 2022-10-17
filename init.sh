@@ -18,6 +18,7 @@ fi
 echo --------------------
 echo Generate migration DDL code
 echo --------------------
+flask db stamp head
 flask db migrate
 
 echo --------------------
@@ -28,12 +29,10 @@ echo This is the DDL code that will be run
 echo --------------------
 flask db upgrade
 
-echo --------------------
-echo Generating test data
-echo --------------------
+#echo --------------------
+#echo Generating test data
+#echo --------------------
 #source venv/Scripts/activate
-#echo test_data.py
-
-# $export OAUTHLIB_INSECURE_TRANSPORT=1.
+#python test_data.py
 
 

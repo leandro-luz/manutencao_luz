@@ -17,6 +17,16 @@
                 {{ form.username(class_='form-control') }}
             </div>
             <div class="form-group">
+                {{ form.email.label }}
+                {% if form.email.errors %}
+                {% for e in form.email.errors %}
+                <p class="help-block">{{ e }}</p>
+                {% endfor %}
+                {% endif %}
+                {{ form.email(class_='form-control') }}
+            </div>
+
+            <div class="form-group">
                 {{ form.password.label }}
                 {% if form.password.errors %}
                 {% for e in form.password.errors %}

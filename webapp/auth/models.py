@@ -1,5 +1,9 @@
-from webapp.auth import bcrypt, AnonymousUserMixin
+from webapp.auth import bcrypt, AnonymousUserMixin, jwt
 from webapp import db
+from flask_jwt_extended import create_access_token, get_jwt_identity
+import jwt
+import datetime
+import config
 
 roles = db.Table(
     'role_users',
@@ -11,7 +15,9 @@ roles = db.Table(
 class User(db.Model):
     id = db.Column(db.Integer(), primary_key=True)
     username = db.Column(db.String(50), nullable=False, index=True, unique=True)
+    email = db.Column(db.String(50), nullable=False, index=True, unique=True)
     password = db.Column(db.String(50))
+    confirmed = db.Column(db.Boolean, default=False)
 
     roles = db.relationship(
         'Role',
@@ -33,6 +39,12 @@ class User(db.Model):
             if role.name == name:
                 return True
         return False
+
+    def set_email(self, email):
+        self.email = email
+
+    def set_confirmed(self, confirmed):
+        self.confirmed = confirmed
 
     def set_password(self, password):
         # self.password = bcrypt.generate_password_hash(password)
@@ -62,6 +74,33 @@ class User(db.Model):
 
     def get_id(self):
         return str(self.id)
+
+    def create_token(self, expiration=600):
+        token = jwt.encode(
+            {"id": self.id,
+             "exp": datetime.datetime.now(tz=datetime.timezone.utc)
+                    + datetime.timedelta(seconds=expiration)},
+            config.Config.SECRET_KEY,
+            algorithm="HS256"
+        )
+        return token
+
+    @staticmethod
+    def verify_token(token):
+        try:
+            data = jwt.decode(
+                token,
+                config.Config.SECRET_KEY,
+                leeway=datetime.timedelta(seconds=10),
+                algorithms=["HS256"]
+            )
+        except:
+            return False
+        # if data.get('id') != self.id:
+        #     return False
+        # self.confirmed = True
+        # db.session.add(self)
+        return data.get('id')
 
 
 class Role(db.Model):
